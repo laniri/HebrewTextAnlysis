@@ -24,7 +24,7 @@ from app.services.localization import DIAGNOSIS_MAP, INTERVENTION_MAP
 HEBREW_ALPHABET = "אבגדהוזחטיכלמנסעפצקרשת "
 ALL_DIAGNOSIS_TYPES = list(DIAGNOSIS_MAP.keys())
 SCORE_KEYS = ["difficulty", "style", "fluency", "cohesion", "complexity"]
-SEVERITY_THRESHOLD = 0.3  # default from config
+SEVERITY_THRESHOLD = 0.5  # must match app/config.py default
 
 
 # ---------------------------------------------------------------------------

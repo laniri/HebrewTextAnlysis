@@ -137,7 +137,7 @@ def test_valid_revise_returns_delta_structure() -> None:
             "low_cohesion": 0.2,  # resolved (was 0.8, now below threshold)
             "sentence_over_complexity": 0.1,  # resolved
             "low_lexical_diversity": 0.2,
-            "pronoun_overuse": 0.5,  # new (was 0.1, now above threshold)
+            "pronoun_overuse": 0.75,  # new (was 0.1, now above threshold)
             "structural_inconsistency": 0.15,
             "low_morphological_richness": 0.05,
             "fragmented_writing": 0.1,
@@ -191,5 +191,5 @@ def test_valid_revise_returns_delta_structure() -> None:
     assert "sentence_over_complexity" in data["resolved_diagnoses"]
 
     # Verify new diagnoses (active in revised, not in original)
-    # pronoun_overuse was 0.1 ≤ 0.3 in original, 0.5 > 0.3 in revised → new
+    # pronoun_overuse was 0.1 ≤ 0.5 in original, 0.75 > 0.5 in revised → new
     assert "pronoun_overuse" in data["new_diagnoses"]
