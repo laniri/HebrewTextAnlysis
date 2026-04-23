@@ -27,6 +27,42 @@ function deltaArrow(value: number): string {
 
 export default function ProgressFeedback() {
   const { analysisResult, previousAnalysis } = useAppStore();
+  const firedRef = useRef<string>('');
+
+  // Compute resolved diagnoses (safe even when null — just empty)
+  const previousTypes = previousAnalysis
+    ? new Set(previousAnalysis.diagnoses.map((d) => d.type))
+    : new Set<string>();
+  const currentTypes = analysisResult
+    ? new Set(analysisResult.diagnoses.map((d) => d.type))
+    : new Set<string>();
+  const resolvedDiagnoses = previousAnalysis
+    ? previousAnalysis.diagnoses.filter(
+        (d) => previousTypes.has(d.type) && !currentTypes.has(d.type),
+      )
+    : [];
+  const resolvedKey = resolvedDiagnoses.map((d) => d.type).sort().join(',');
+
+  // Fire confetti when diagnoses are resolved
+  useEffect(() => {
+    if (resolvedDiagnoses.length > 0 && resolvedKey && resolvedKey !== firedRef.current) {
+      firedRef.current = resolvedKey;
+      confetti({
+        particleCount: 80,
+        spread: 70,
+        origin: { x: 0.2, y: 0.6 },
+        colors: ['#27ab83', '#147d64', '#65d6ad', '#f0b429', '#243b53'],
+      });
+      setTimeout(() => {
+        confetti({
+          particleCount: 80,
+          spread: 70,
+          origin: { x: 0.8, y: 0.6 },
+          colors: ['#27ab83', '#147d64', '#65d6ad', '#f0b429', '#243b53'],
+        });
+      }, 200);
+    }
+  }, [resolvedKey, resolvedDiagnoses.length]);
 
   // Only show when we have both current and previous analysis
   if (!analysisResult || !previousAnalysis) return null;
@@ -44,38 +80,6 @@ export default function ProgressFeedback() {
       deltas.push({ key, label: SCORE_LABELS[key], before, after, delta });
     }
   }
-
-  // Find resolved diagnoses (were in previous, not in current)
-  const previousTypes = new Set(previousAnalysis.diagnoses.map((d) => d.type));
-  const currentTypes = new Set(analysisResult.diagnoses.map((d) => d.type));
-  const resolvedDiagnoses = previousAnalysis.diagnoses.filter(
-    (d) => previousTypes.has(d.type) && !currentTypes.has(d.type),
-  );
-
-  // Fire confetti when diagnoses are resolved
-  const firedRef = useRef<string>('');
-  const resolvedKey = resolvedDiagnoses.map((d) => d.type).sort().join(',');
-
-  useEffect(() => {
-    if (resolvedDiagnoses.length > 0 && resolvedKey !== firedRef.current) {
-      firedRef.current = resolvedKey;
-      // Burst from both sides
-      confetti({
-        particleCount: 80,
-        spread: 70,
-        origin: { x: 0.2, y: 0.6 },
-        colors: ['#27ab83', '#147d64', '#65d6ad', '#f0b429', '#243b53'],
-      });
-      setTimeout(() => {
-        confetti({
-          particleCount: 80,
-          spread: 70,
-          origin: { x: 0.8, y: 0.6 },
-          colors: ['#27ab83', '#147d64', '#65d6ad', '#f0b429', '#243b53'],
-        });
-      }, 200);
-    }
-  }, [resolvedKey, resolvedDiagnoses.length]);
 
   // Nothing to show
   if (deltas.length === 0 && resolvedDiagnoses.length === 0) return null;
