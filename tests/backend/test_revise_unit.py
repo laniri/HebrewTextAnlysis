@@ -122,7 +122,7 @@ def test_valid_revise_returns_delta_structure() -> None:
         difficulty=0.5, style=0.4, fluency=0.6, cohesion=0.3, complexity=0.7,
         diagnoses={
             "low_cohesion": 0.8,
-            "sentence_over_complexity": 0.7,
+            "sentence_over_complexity": 0.8,
             "low_lexical_diversity": 0.2,
             "pronoun_overuse": 0.1,
             "structural_inconsistency": 0.15,
