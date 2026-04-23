@@ -238,7 +238,7 @@ def test_full_revise_flow() -> None:
             "low_cohesion": 0.20,  # resolved
             "sentence_over_complexity": 0.15,  # resolved
             "low_lexical_diversity": 0.45,  # unchanged
-            "pronoun_overuse": 0.50,  # new
+            "pronoun_overuse": 0.75,  # new
             "structural_inconsistency": 0.28,
             "low_morphological_richness": 0.12,
             "fragmented_writing": 0.08,
