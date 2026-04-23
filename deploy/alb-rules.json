@@ -1,0 +1,49 @@
+{
+  "rules": [
+    {
+      "priority": 1,
+      "conditions": [
+        {
+          "field": "path-pattern",
+          "values": ["/api/*"]
+        }
+      ],
+      "actions": [
+        {
+          "type": "forward",
+          "targetGroupArn": "arn:aws:elasticloadbalancing:us-east-1:ACCOUNT_ID:targetgroup/hebrew-coach-backend/PLACEHOLDER"
+        }
+      ]
+    },
+    {
+      "priority": 2,
+      "conditions": [
+        {
+          "field": "path-pattern",
+          "values": ["/admin/*"]
+        }
+      ],
+      "actions": [
+        {
+          "type": "forward",
+          "targetGroupArn": "arn:aws:elasticloadbalancing:us-east-1:ACCOUNT_ID:targetgroup/hebrew-coach-backend/PLACEHOLDER"
+        }
+      ]
+    },
+    {
+      "priority": 99,
+      "conditions": [
+        {
+          "field": "path-pattern",
+          "values": ["/*"]
+        }
+      ],
+      "actions": [
+        {
+          "type": "forward",
+          "targetGroupArn": "arn:aws:elasticloadbalancing:us-east-1:ACCOUNT_ID:targetgroup/hebrew-coach-frontend/PLACEHOLDER"
+        }
+      ]
+    }
+  ]
+}

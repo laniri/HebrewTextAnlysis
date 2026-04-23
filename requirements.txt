@@ -1,0 +1,9 @@
+certifi==2026.2.25
+charset-normalizer==3.4.7
+idna==3.11
+requests==2.33.1
+urllib3==2.6.3
+yap==0.5.7
+stanza
+hypothesis
+sentence-transformers>=2.7.0,<3.0.0

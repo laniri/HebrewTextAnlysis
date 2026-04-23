@@ -1,0 +1,83 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+*.egg
+dist/
+build/
+
+# Virtual environment
+venv/
+.venv/
+
+# IDE / Editor
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Hypothesis (PBT database)
+.hypothesis/
+
+# pytest
+.pytest_cache/
+
+# Kiro
+.kiro/
+
+# YAP (external dependency, built separately)
+yapproj/
+
+# Corpus data (large, regenerable)
+corpus/
+corpus_sample/
+corpus_hedc4/
+corpus_hedc4_5k/
+wikipedia.raw
+
+# Pipeline results (large, regenerable)
+results/
+results_sample/
+results_hedc4/
+results_hedc4_5k/
+
+# Frequency dictionaries (regenerable from corpus)
+freq_dict.json
+freq_dict_merged.json
+
+# Feature statistics (regenerable from results)
+feature_stats.json
+feature_stats_merged.json
+
+# Analysis output files (transient)
+analysis_result*.json
+result.json
+sample*_result*.json
+metrics*.json
+
+# ML training artifacts (large)
+model_checkpoint/
+model_v5/
+training_data*.jsonl
+label_stats*.json
+*.pt
+
+# JSONL exports
+*.jsonl
+
+# Logs
+*.log
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+
+# Environment files
+.env
+.env.local
+.env.*.local

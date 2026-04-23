@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: .
+      dockerfile: app/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - MODEL_PATH=/app/model
+      - AWS_REGION=us-east-1
+      - AWS_PROFILE=
+      - ADMIN_PASSWORD=admin
+      - FRONTEND_ORIGIN=http://localhost:3000
+    volumes:
+      - ./model:/app/model
