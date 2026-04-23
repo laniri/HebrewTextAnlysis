@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+import confetti from 'canvas-confetti';
 import { useAppStore } from '../store/useAppStore';
 
 /* ── Score Hebrew labels ── */
@@ -49,6 +51,31 @@ export default function ProgressFeedback() {
   const resolvedDiagnoses = previousAnalysis.diagnoses.filter(
     (d) => previousTypes.has(d.type) && !currentTypes.has(d.type),
   );
+
+  // Fire confetti when diagnoses are resolved
+  const firedRef = useRef<string>('');
+  const resolvedKey = resolvedDiagnoses.map((d) => d.type).sort().join(',');
+
+  useEffect(() => {
+    if (resolvedDiagnoses.length > 0 && resolvedKey !== firedRef.current) {
+      firedRef.current = resolvedKey;
+      // Burst from both sides
+      confetti({
+        particleCount: 80,
+        spread: 70,
+        origin: { x: 0.2, y: 0.6 },
+        colors: ['#27ab83', '#147d64', '#65d6ad', '#f0b429', '#243b53'],
+      });
+      setTimeout(() => {
+        confetti({
+          particleCount: 80,
+          spread: 70,
+          origin: { x: 0.8, y: 0.6 },
+          colors: ['#27ab83', '#147d64', '#65d6ad', '#f0b429', '#243b53'],
+        });
+      }, 200);
+    }
+  }, [resolvedKey, resolvedDiagnoses.length]);
 
   // Nothing to show
   if (deltas.length === 0 && resolvedDiagnoses.length === 0) return null;
