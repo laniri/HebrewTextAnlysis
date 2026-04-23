@@ -12,11 +12,11 @@ from __future__ import annotations
 
 from unittest.mock import patch
 
-from hypothesis import given, settings, assume
+from hypothesis import given, settings as hypothesis_settings, assume
 from hypothesis import strategies as st
 
 from app.services.localization import DIAGNOSIS_MAP, INTERVENTION_MAP
-from app.config import settings
+from app.config import settings as app_settings
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -127,7 +127,7 @@ def call_revise(
     original_diagnoses=diagnoses_dict_strategy(),
     revised_diagnoses=diagnoses_dict_strategy(),
 )
-@settings(max_examples=100, deadline=None)
+@hypothesis_settings(max_examples=100, deadline=None)
 def test_delta_score_arithmetic(
     original_text: str,
     edited_text: str,
@@ -172,7 +172,7 @@ def test_delta_score_arithmetic(
     original_diagnoses=diagnoses_dict_strategy(),
     revised_diagnoses=diagnoses_dict_strategy(),
 )
-@settings(max_examples=100, deadline=None)
+@hypothesis_settings(max_examples=100, deadline=None)
 def test_diagnosis_set_transitions(
     original_scores: dict,
     revised_scores: dict,
@@ -192,7 +192,7 @@ def test_diagnosis_set_transitions(
     data = response.json()
 
     # Compute expected active sets using the same threshold as the endpoint
-    threshold = settings.SEVERITY_THRESHOLD
+    threshold = app_settings.SEVERITY_THRESHOLD
     original_active = {
         dtype for dtype, sev in original_diagnoses.items()
         if sev > threshold
