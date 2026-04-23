@@ -858,6 +858,7 @@ sagemaker_train.py         # SageMaker training entry point (Layer 6)
 launch_sagemaker_training.py  # SageMaker job launcher (Layer 6)
 export_training_data.py    # Data export, inference, and disagreement mining CLI (Layer 6)
 test_webapp.py             # Playwright e2e tests for the Hebrew Writing Coach frontend
+stress_test.py             # 10-minute sustained stress test (repeated waves of concurrent users) against the deployed Writing Coach
 
 tests/
 ├── test_normalizer.py     # Properties 1-2
@@ -896,6 +897,9 @@ cd frontend && npx vitest run
 
 # Run Hebrew Writing Coach Playwright e2e tests (requires frontend on port 3001)
 python test_webapp.py
+
+# Stress test — 10-minute sustained load, 5 concurrent users per wave
+python stress_test.py
 
 # Run everything (backend)
 python -m pytest tests/ analysis/ ml/ app/ hebrew_profiler/normalizer_test.py -v
@@ -995,6 +999,26 @@ python -m pytest tests/ analysis/ ml/ app/ hebrew_profiler/normalizer_test.py -v
 | 10 | Diagnosis display filtering and ordering | analyze |
 | 11 | Localization completeness | localization |
 | 12 | Share URL round-trip | shareUrl (frontend) |
+
+### Stress Test
+
+`stress_test.py` runs a 10-minute sustained stress test against the deployed Writing Coach on CloudFront. It launches repeated waves of 5 concurrent users, each performing a full session: fetch examples → load a random example → analyze → modify text with a random Hebrew edit → re-analyze. Waves repeat continuously for the configured duration.
+
+The script waits until 18:45 local time before starting (starts immediately if that time has already passed). This allows scheduling the test to coincide with specific deployment windows.
+
+```bash
+python stress_test.py
+```
+
+Each wave reports success rate, average and max analyze latency. At the end, the script prints aggregate statistics including total waves, success rate, and latency percentiles (p50, p95, max) for both initial analysis and re-analysis.
+
+The `BASE` URL at the top of the file points to the production CloudFront distribution. No local server is needed. Requires the `requests` library.
+
+**Configuration** — edit constants at the top of `stress_test.py`:
+- `BASE` — CloudFront base URL (default: `https://d2e6rjfv7d2rgs.cloudfront.net/coach`)
+- `NUM_USERS` — Concurrent users per wave (default: 5)
+- `DURATION` — Total test duration in seconds (default: 600 = 10 minutes)
+- `EDITS` — Hebrew text modifications applied between analysis rounds
 
 ## Configuration
 
