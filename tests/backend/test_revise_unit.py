@@ -122,7 +122,7 @@ def test_valid_revise_returns_delta_structure() -> None:
         difficulty=0.5, style=0.4, fluency=0.6, cohesion=0.3, complexity=0.7,
         diagnoses={
             "low_cohesion": 0.8,
-            "sentence_over_complexity": 0.5,
+            "sentence_over_complexity": 0.7,
             "low_lexical_diversity": 0.2,
             "pronoun_overuse": 0.1,
             "structural_inconsistency": 0.15,
@@ -186,7 +186,7 @@ def test_valid_revise_returns_delta_structure() -> None:
 
     # Verify resolved diagnoses (active in original, not in revised)
     # low_cohesion was 0.8 > 0.3 in original, 0.2 ≤ 0.3 in revised → resolved
-    # sentence_over_complexity was 0.5 > 0.3 in original, 0.1 ≤ 0.3 in revised → resolved
+    # sentence_over_complexity was 0.7 > 0.5 in original, 0.1 ≤ 0.5 in revised → resolved
     assert "low_cohesion" in data["resolved_diagnoses"]
     assert "sentence_over_complexity" in data["resolved_diagnoses"]
 
