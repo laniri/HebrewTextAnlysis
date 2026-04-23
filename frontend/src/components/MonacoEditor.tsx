@@ -20,8 +20,8 @@ function Placeholder() {
         fontFamily: "'Heebo', system-ui, sans-serif",
         fontSize: 16,
         lineHeight: 1.7,
-        color: 'var(--text-muted)',
-        opacity: 0.6,
+        color: '#829ab1',
+        opacity: 0.85,
       }}
     >
       הקלידו או הדביקו טקסט בעברית כאן, או בחרו דוגמה מהרשימה למעלה ↑
