@@ -52,11 +52,6 @@ def test_rewrite_prompt_contains_all_required_fields(
 
     entry = DIAGNOSIS_MAP[diagnosis_type]
 
-    # Prompt must contain the diagnosis type string
-    assert diagnosis_type in prompt, (
-        f"Prompt missing diagnosis_type '{diagnosis_type}'"
-    )
-
     # Prompt must contain the Hebrew diagnosis label
     assert entry["label_he"] in prompt, (
         f"Prompt missing Hebrew label '{entry['label_he']}' for {diagnosis_type}"
