@@ -22,7 +22,9 @@ jobs:
           python-version: "3.12"
 
       - name: Install backend deps
-        run: pip install fastapi uvicorn pydantic-settings boto3 httpx hypothesis pytest
+        run: |
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install transformers fastapi uvicorn pydantic-settings boto3 httpx hypothesis pytest stanza
 
       - name: Run backend tests
         run: python -m pytest tests/backend/ -v --tb=short -x
