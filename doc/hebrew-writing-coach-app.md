@@ -866,7 +866,7 @@ Each intervention displayed as a card with:
 
 ### Changes from Original Design
 
-1. **Default Bedrock model** — Changed to Claude Sonnet 4.5 (`us.anthropic.claude-sonnet-4-5-20250929-v1:0`). Admin can still select any available Bedrock model. All model IDs use cross-region inference profile format (`us.` prefix).
+1. **Default Bedrock model** — Changed to Claude Sonnet 4.5 (`us.anthropic.claude-sonnet-4-5-20250929-v1:0`). Admin can still select any available Bedrock model. Curated model IDs use cross-region inference profile format with a prefix derived from `AWS_REGION`: `eu` for EU regions, `ap` for Asia-Pacific, `us` otherwise.
 2. **PDF export** — Uses jsPDF (not html2pdf.js) for PDF generation.
 3. **Score visualization** — Spider/radar chart (recharts RadarChart) replaces the original individual score bars design. Provides better at-a-glance comparison of text strengths and weaknesses.
 4. **Methodology page** — Added as a new feature not in the original MVP scope. Provides transparency into the analysis system.

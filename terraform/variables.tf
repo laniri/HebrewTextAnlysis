@@ -52,7 +52,7 @@ variable "model_s3_key" {
 variable "bedrock_model_id" {
   description = "Bedrock model ID for AI features"
   type        = string
-  default     = "us.anthropic.claude-sonnet-4-5-20250929-v1:0"
+  default     = "eu.anthropic.claude-sonnet-4-5-20250929-v1:0"
 }
 
 variable "sns_topic_arn" {

@@ -230,24 +230,32 @@ class BedrockService:
         by any additional models discovered via the Bedrock API.
         """
         # Curated list of Anthropic and Amazon text models
-        # Uses cross-region inference profile IDs from list_inference_profiles()
+        # Uses cross-region inference profile IDs — prefix matches AWS_REGION
+        region = settings.AWS_REGION
+        if region.startswith("eu"):
+            prefix = "eu"
+        elif region.startswith("ap"):
+            prefix = "ap"
+        else:
+            prefix = "us"
+
         curated: list[ModelInfo] = [
             # Anthropic — latest models
-            ModelInfo(model_id="us.anthropic.claude-opus-4-7", model_name="Claude Opus 4.7", provider="Anthropic"),
-            ModelInfo(model_id="us.anthropic.claude-opus-4-6-v1", model_name="Claude Opus 4.6", provider="Anthropic"),
-            ModelInfo(model_id="us.anthropic.claude-sonnet-4-6", model_name="Claude Sonnet 4.6", provider="Anthropic"),
-            ModelInfo(model_id="us.anthropic.claude-sonnet-4-5-20250929-v1:0", model_name="Claude Sonnet 4.5", provider="Anthropic"),
-            ModelInfo(model_id="us.anthropic.claude-sonnet-4-20250514-v1:0", model_name="Claude Sonnet 4", provider="Anthropic"),
-            ModelInfo(model_id="us.anthropic.claude-opus-4-5-20251101-v1:0", model_name="Claude Opus 4.5", provider="Anthropic"),
-            ModelInfo(model_id="us.anthropic.claude-opus-4-20250514-v1:0", model_name="Claude Opus 4", provider="Anthropic"),
-            ModelInfo(model_id="us.anthropic.claude-opus-4-1-20250805-v1:0", model_name="Claude Opus 4.1", provider="Anthropic"),
-            ModelInfo(model_id="us.anthropic.claude-haiku-4-5-20251001-v1:0", model_name="Claude Haiku 4.5", provider="Anthropic"),
-            ModelInfo(model_id="us.anthropic.claude-3-7-sonnet-20250219-v1:0", model_name="Claude 3.7 Sonnet", provider="Anthropic"),
-            ModelInfo(model_id="us.anthropic.claude-3-5-haiku-20241022-v1:0", model_name="Claude 3.5 Haiku", provider="Anthropic"),
+            ModelInfo(model_id=f"{prefix}.anthropic.claude-sonnet-4-5-20250929-v1:0", model_name="Claude Sonnet 4.5", provider="Anthropic"),
+            ModelInfo(model_id=f"{prefix}.anthropic.claude-sonnet-4-6", model_name="Claude Sonnet 4.6", provider="Anthropic"),
+            ModelInfo(model_id=f"{prefix}.anthropic.claude-sonnet-4-20250514-v1:0", model_name="Claude Sonnet 4", provider="Anthropic"),
+            ModelInfo(model_id=f"{prefix}.anthropic.claude-opus-4-7", model_name="Claude Opus 4.7", provider="Anthropic"),
+            ModelInfo(model_id=f"{prefix}.anthropic.claude-opus-4-6-v1", model_name="Claude Opus 4.6", provider="Anthropic"),
+            ModelInfo(model_id=f"{prefix}.anthropic.claude-opus-4-5-20251101-v1:0", model_name="Claude Opus 4.5", provider="Anthropic"),
+            ModelInfo(model_id=f"{prefix}.anthropic.claude-opus-4-20250514-v1:0", model_name="Claude Opus 4", provider="Anthropic"),
+            ModelInfo(model_id=f"{prefix}.anthropic.claude-opus-4-1-20250805-v1:0", model_name="Claude Opus 4.1", provider="Anthropic"),
+            ModelInfo(model_id=f"{prefix}.anthropic.claude-haiku-4-5-20251001-v1:0", model_name="Claude Haiku 4.5", provider="Anthropic"),
+            ModelInfo(model_id=f"{prefix}.anthropic.claude-3-7-sonnet-20250219-v1:0", model_name="Claude 3.7 Sonnet", provider="Anthropic"),
+            ModelInfo(model_id=f"{prefix}.anthropic.claude-3-5-haiku-20241022-v1:0", model_name="Claude 3.5 Haiku", provider="Anthropic"),
             # Amazon Nova
-            ModelInfo(model_id="us.amazon.nova-pro-v1:0", model_name="Nova Pro", provider="Amazon"),
-            ModelInfo(model_id="us.amazon.nova-lite-v1:0", model_name="Nova Lite", provider="Amazon"),
-            ModelInfo(model_id="us.amazon.nova-micro-v1:0", model_name="Nova Micro", provider="Amazon"),
+            ModelInfo(model_id=f"{prefix}.amazon.nova-pro-v1:0", model_name="Nova Pro", provider="Amazon"),
+            ModelInfo(model_id=f"{prefix}.amazon.nova-lite-v1:0", model_name="Nova Lite", provider="Amazon"),
+            ModelInfo(model_id=f"{prefix}.amazon.nova-micro-v1:0", model_name="Nova Micro", provider="Amazon"),
             ModelInfo(model_id="us.amazon.nova-premier-v1:0", model_name="Nova Premier", provider="Amazon"),
             ModelInfo(model_id="us.amazon.nova-2-lite-v1:0", model_name="Nova 2 Lite", provider="Amazon"),
         ]

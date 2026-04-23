@@ -2,6 +2,33 @@ import Editor, { type OnMount } from '@monaco-editor/react';
 import { useRef, useCallback, useEffect } from 'react';
 import { useAppStore } from '../store/useAppStore';
 
+function Placeholder() {
+  const { text } = useAppStore();
+  if (text.trim()) return null;
+
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        top: 20,
+        right: 20,
+        left: 20,
+        pointerEvents: 'none',
+        zIndex: 1,
+        direction: 'rtl',
+        textAlign: 'right',
+        fontFamily: "'Heebo', system-ui, sans-serif",
+        fontSize: 16,
+        lineHeight: 1.7,
+        color: 'var(--text-muted)',
+        opacity: 0.6,
+      }}
+    >
+      הקלידו או הדביקו טקסט בעברית כאן, או בחרו דוגמה מהרשימה למעלה ↑
+    </div>
+  );
+}
+
 export default function MonacoEditor() {
   const { text, setText, analyzeText } = useAppStore();
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -23,8 +50,6 @@ export default function MonacoEditor() {
 
   const handleMount: OnMount = useCallback((editor) => {
     editorRef.current = editor;
-    // Auto-focus the editor on mount
-    editor.focus();
   }, []);
 
   const handleContainerClick = useCallback(() => {
@@ -40,7 +65,8 @@ export default function MonacoEditor() {
   }, []);
 
   return (
-    <div className="h-full" onClick={handleContainerClick} dir="ltr">
+    <div className="h-full" onClick={handleContainerClick} dir="ltr" style={{ position: 'relative' }}>
+      <Placeholder />
       <Editor
         height="100%"
         language="plaintext"
