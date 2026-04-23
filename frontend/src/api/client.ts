@@ -10,7 +10,7 @@ import type {
   ModelInfo,
 } from '../types';
 
-const api = axios.create({ baseURL: '/' });
+const api = axios.create({ baseURL: import.meta.env.BASE_URL });
 
 export async function analyzeText(text: string): Promise<AnalyzeResponse> {
   const { data } = await api.post<AnalyzeResponse>('/api/analyze', { text });

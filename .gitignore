@@ -81,3 +81,16 @@ frontend/dist-ssr/
 .env
 .env.local
 .env.*.local
+
+# Terraform
+terraform/.terraform/
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+terraform/tfplan
+terraform/.terraform.lock.hcl
+
+# Example terraform (reference only, not deployed)
+example_terraform/.terraform/
+example_terraform/terraform.tfstate
+example_terraform/terraform.tfstate.backup
+example_terraform/tfplan

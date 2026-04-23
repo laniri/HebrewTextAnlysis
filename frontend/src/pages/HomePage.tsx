@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import MainLayout from '../components/MainLayout';
 import MonacoEditor from '../components/MonacoEditor';
 import ScoreSpiderChart from '../components/ScoreSpiderChart';
@@ -7,44 +7,10 @@ import InterventionCard from '../components/InterventionCard';
 import ProgressFeedback from '../components/ProgressFeedback';
 import ExampleSelector from '../components/ExampleSelector';
 import { useAppStore } from '../store/useAppStore';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
+import { decodeShareUrl } from '../utils/shareUrl';
 
-/* ── Empty-state placeholder for the editor pane ── */
-function EditorEmptyOverlay() {
-  const { text } = useAppStore();
-  if (text.trim()) return null;
-
-  return (
-    <div className="flex flex-col items-center justify-center p-8 text-center"
-      style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', pointerEvents: 'none', opacity: 0.7 }}>
-      <div
-        className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl"
-        style={{ backgroundColor: 'var(--accent-50)' }}
-      >
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path
-            d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4L16.5 3.5z"
-            stroke="var(--accent-600)"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </div>
-      <h2
-        className="mb-2 text-xl"
-        style={{ fontFamily: 'var(--font-heading)', color: 'var(--text-primary)' }}
-      >
-        התחילו לכתוב
-      </h2>
-      <p className="max-w-sm text-sm" style={{ color: 'var(--text-muted)' }}>
-        הקלידו או הדביקו טקסט בעברית כאן כדי לקבל ניתוח לשוני מיידי עם ציונים, אבחנות והמלצות לשיפור
-      </p>
-    </div>
-  );
-}
-
-/* ── Editor pane with Monaco + empty overlay ── */
+/* ── Editor pane with Monaco ── */
 function EditorPane() {
   return (
     <div className="h-full">
@@ -353,6 +319,21 @@ function AnalysisPanel() {
 }
 
 export default function HomePage() {
+  const [searchParams] = useSearchParams();
+  const { setText, analyzeText } = useAppStore();
+
+  // Load shared text from URL query parameter
+  useEffect(() => {
+    const textParam = searchParams.get('text');
+    if (textParam) {
+      const decoded = decodeShareUrl(window.location.href);
+      if (decoded) {
+        setText(decoded);
+        analyzeText(decoded);
+      }
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <>
       <ExampleSelector />

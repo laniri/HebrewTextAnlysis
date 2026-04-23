@@ -94,7 +94,6 @@ export const useAppStore = create<AppState>((set, get) => ({
     diagnosisType: string,
     suggestion?: string,
   ) => {
-    const targetText = sentences.map((s) => s.text).join(' ');
     set({
       rewriteModal: {
         isOpen: true,

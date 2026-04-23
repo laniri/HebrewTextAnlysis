@@ -8,7 +8,7 @@ import AdminPage from './pages/AdminPage';
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
       <div dir="rtl" lang="he" className="flex h-screen flex-col bg-pattern overflow-hidden">
         <Header />
         <main className="flex flex-1 flex-col min-h-0 overflow-y-auto">

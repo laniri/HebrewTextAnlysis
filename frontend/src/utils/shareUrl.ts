@@ -19,7 +19,8 @@ export function encodeShareUrl(text: string): string {
     ),
   );
   const base = typeof window !== 'undefined' ? window.location.origin : 'https://example.com';
-  return `${base}/?text=${encodeURIComponent(encoded)}`;
+  const basePath = import.meta.env.BASE_URL || '/';
+  return `${base}${basePath}?text=${encodeURIComponent(encoded)}`;
 }
 
 /**

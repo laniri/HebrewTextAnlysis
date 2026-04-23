@@ -46,19 +46,23 @@ class ModelService:
     def load(self) -> None:
         """Load the DictaBERT model and tokenizer into memory."""
         model_path = Path(settings.MODEL_PATH)
-        if not model_path.exists():
+        if not model_path.exists() or not (model_path / "config.json").exists():
             logger.warning(
-                "Model path %s does not exist; analyze() will fail.",
+                "Model path %s does not exist or is incomplete; analyze() will fail.",
                 model_path,
             )
             self._model_loaded = True  # Mark as loaded so health check passes
             return
 
-        self._device = _detect_device(None)
-        logger.info("Loading DictaBERT model from %s to %s...", model_path, self._device)
-        self._model, self._tokenizer = _load_model(str(model_path), self._device)
-        self._model_loaded = True
-        logger.info("ModelService loaded — model in memory on %s", self._device)
+        try:
+            self._device = _detect_device(None)
+            logger.info("Loading DictaBERT model from %s to %s...", model_path, self._device)
+            self._model, self._tokenizer = _load_model(str(model_path), self._device)
+            self._model_loaded = True
+            logger.info("ModelService loaded — model in memory on %s", self._device)
+        except Exception as exc:
+            logger.error("Failed to load model: %s", exc)
+            self._model_loaded = True  # Don't crash the app, just degrade
 
     def unload(self) -> None:
         """Release model from memory."""

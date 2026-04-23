@@ -1,0 +1,22 @@
+# Ignore large/unnecessary files during Docker build
+venv/
+.venv/
+__pycache__/
+*.pyc
+.hypothesis/
+.pytest_cache/
+.git/
+.kiro/
+node_modules/
+frontend/node_modules/
+frontend/dist/
+model_v5/
+model/
+corpus*/
+results*/
+*.jsonl
+*.pt
+example_terraform/
+terraform/
+deploy/.terraform/
+.DS_Store
