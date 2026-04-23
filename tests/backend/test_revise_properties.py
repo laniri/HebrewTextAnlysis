@@ -16,6 +16,7 @@ from hypothesis import given, settings, assume
 from hypothesis import strategies as st
 
 from app.services.localization import DIAGNOSIS_MAP, INTERVENTION_MAP
+from app.config import settings
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -24,7 +25,6 @@ from app.services.localization import DIAGNOSIS_MAP, INTERVENTION_MAP
 HEBREW_ALPHABET = "אבגדהוזחטיכלמנסעפצקרשת "
 ALL_DIAGNOSIS_TYPES = list(DIAGNOSIS_MAP.keys())
 SCORE_KEYS = ["difficulty", "style", "fluency", "cohesion", "complexity"]
-SEVERITY_THRESHOLD = 0.5  # must match app/config.py default
 
 
 # ---------------------------------------------------------------------------
@@ -192,13 +192,14 @@ def test_diagnosis_set_transitions(
     data = response.json()
 
     # Compute expected active sets using the same threshold as the endpoint
+    threshold = settings.SEVERITY_THRESHOLD
     original_active = {
         dtype for dtype, sev in original_diagnoses.items()
-        if sev > SEVERITY_THRESHOLD
+        if sev > threshold
     }
     revised_active = {
         dtype for dtype, sev in revised_diagnoses.items()
-        if sev > SEVERITY_THRESHOLD
+        if sev > threshold
     }
 
     resolved = set(data["resolved_diagnoses"])
