@@ -32,6 +32,7 @@ export interface AppState {
   // Editor
   text: string;
   setText: (text: string) => void;
+  clearProgress: () => void;
 
   // Analysis
   analysisResult: AnalyzeResponse | null;
@@ -66,6 +67,9 @@ export const useAppStore = create<AppState>((set, get) => ({
   // ── Editor ──────────────────────────────────────────────
   text: '',
   setText: (text: string) => set({ text }),
+
+  // Clear previous analysis (use when loading new text, not editing)
+  clearProgress: () => set({ previousAnalysis: null }),
 
   // ── Analysis ────────────────────────────────────────────
   analysisResult: null,

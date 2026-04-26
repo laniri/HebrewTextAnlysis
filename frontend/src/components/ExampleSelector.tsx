@@ -17,7 +17,7 @@ function getCategoryIcon(category: string): string {
 }
 
 export default function ExampleSelector() {
-  const { setText, analyzeText } = useAppStore();
+  const { setText, analyzeText, clearProgress } = useAppStore();
   const [examples, setExamples] = useState<ExampleSummary[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingId, setLoadingId] = useState<string | null>(null);
@@ -50,6 +50,7 @@ export default function ExampleSelector() {
     setLoadingId(id);
     try {
       const example = await getExample(id);
+      clearProgress();
       setText(example.text);
       // Trigger analysis immediately after loading
       await analyzeText(example.text);

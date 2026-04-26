@@ -299,6 +299,14 @@ function AnalysisPanel() {
               }}
             >
               המלצות לשיפור
+              {analysisResult.interventions.length > 0 && (
+                <span
+                  className="mr-2 inline-flex h-5 w-5 items-center justify-center rounded-full text-xs font-bold text-white"
+                  style={{ backgroundColor: 'var(--primary-500)' }}
+                >
+                  {analysisResult.interventions.length}
+                </span>
+              )}
             </h3>
             <div className="space-y-3">
               {analysisResult.interventions.map((intervention) => (
@@ -320,7 +328,7 @@ function AnalysisPanel() {
 
 export default function HomePage() {
   const [searchParams] = useSearchParams();
-  const { setText, analyzeText } = useAppStore();
+  const { setText, analyzeText, clearProgress } = useAppStore();
 
   // Load shared text from URL query parameter
   useEffect(() => {
@@ -328,6 +336,7 @@ export default function HomePage() {
     if (textParam) {
       const decoded = decodeShareUrl(window.location.href);
       if (decoded) {
+        clearProgress();
         setText(decoded);
         analyzeText(decoded);
       }
