@@ -338,7 +338,7 @@ export default function HomePage() {
       if (decoded) {
         clearProgress();
         setText(decoded);
-        analyzeText(decoded);
+        analyzeText(decoded, true);
       }
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps

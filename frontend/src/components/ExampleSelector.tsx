@@ -52,8 +52,7 @@ export default function ExampleSelector() {
       const example = await getExample(id);
       clearProgress();
       setText(example.text);
-      // Trigger analysis immediately after loading
-      await analyzeText(example.text);
+      await analyzeText(example.text, true);
     } catch {
       // Silently fail — user can retry
     } finally {

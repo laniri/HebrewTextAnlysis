@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     ADMIN_PASSWORD: str = "admin"
     BEDROCK_MODEL_ID: str = "us.anthropic.claude-sonnet-4-5-20250929-v1:0"
     SEVERITY_THRESHOLD: float = 0.45
-    MAX_DIAGNOSES_SHOWN: int = 4 
+    MAX_DIAGNOSES_SHOWN: int = 3 
     MAX_INTERVENTIONS_SHOWN: int = 3
     FRONTEND_ORIGIN: str = "http://localhost:3000"
 

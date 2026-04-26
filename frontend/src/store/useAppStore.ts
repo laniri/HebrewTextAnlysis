@@ -37,7 +37,7 @@ export interface AppState {
   // Analysis
   analysisResult: AnalyzeResponse | null;
   isAnalyzing: boolean;
-  analyzeText: (text: string) => Promise<void>;
+  analyzeText: (text: string, skipProgress?: boolean) => Promise<void>;
 
   // Previous analysis (for progress feedback)
   previousAnalysis: AnalyzeResponse | null;
@@ -76,13 +76,13 @@ export const useAppStore = create<AppState>((set, get) => ({
   isAnalyzing: false,
   previousAnalysis: null,
 
-  analyzeText: async (text: string) => {
+  analyzeText: async (text: string, skipProgress?: boolean) => {
     set({ isAnalyzing: true });
     try {
       const result = await apiAnalyze(text);
       set((state) => ({
         analysisResult: result,
-        previousAnalysis: state.analysisResult,
+        previousAnalysis: skipProgress ? null : state.analysisResult,
         isAnalyzing: false,
       }));
     } catch {
